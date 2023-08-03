@@ -16,6 +16,7 @@ import java.net.SocketException;
  * @author fengwen
  * @date 2023/8/3
  * @description 任务
+ * @version 1.1
  **/
 @Slf4j
 @Data
@@ -32,10 +33,10 @@ public class Task implements Runnable {
 
     @Override
     public void run() {
-        log.info("进入了子线程run方法");
+        log.debug("进入了子线程run方法");
         try {
             while (true) {
-                log.info("循环中。。。");
+                log.debug("循环中。。。");
                 DataInputStream dataIs = new DataInputStream(socket.getInputStream());
                 String dataStr = dataIs.readUTF();
                 Msg msg = Msg.toMsg(dataStr);
@@ -50,7 +51,7 @@ public class Task implements Runnable {
                 }
             }
         } catch (SocketException e) {
-//            log.info("客户端强制退出", e);
+            log.debug("客户端强制退出", e);
             Connections.remove(socket);
         } catch (IOException e) {
             log.error("子线程处理消息错误", e);

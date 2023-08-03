@@ -11,6 +11,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  * @author fengwen
  * @date 2023/8/3
  * @description 连接线程池定义
+ * @version 1.1
  **/
 @Slf4j
 @Configuration
@@ -18,11 +19,11 @@ public class ConnectPool {
 
     @Bean("connectPoolExecutor")
     public ThreadPoolExecutor connectPoolExecutor() {
-        return new ThreadPoolExecutor(10,
+        return new ThreadPoolExecutor(100,
                 100,
                 60,
                 TimeUnit.SECONDS,
-                new ArrayBlockingQueue<>(10000),
+                new ArrayBlockingQueue<>(10),
                 new ThreadFactory() {
                    final AtomicInteger aInt = new AtomicInteger(0);
 

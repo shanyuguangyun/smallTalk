@@ -12,6 +12,7 @@ import java.util.List;
  * @author fengwen
  * @date 2023/8/3
  * @description 链接集合
+ * @version 1.1
  **/
 @Slf4j
 @Data

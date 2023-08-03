@@ -4,3 +4,7 @@ server:
 # 内嵌聊天服务端口
 im:
   port: 9999
+
+logging:
+  level:
+    root: info

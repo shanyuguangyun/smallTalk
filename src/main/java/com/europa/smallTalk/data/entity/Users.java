@@ -1,4 +1,4 @@
-package com.europa.smallTalk.im.user;
+package com.europa.smallTalk.data.entity;
 
 import java.util.List;
 
@@ -6,6 +6,7 @@ import java.util.List;
  * @author fengwen
  * @date 2023/8/3
  * @description TODO
+ * @version 1.2
  **/
 public class Users {
 
