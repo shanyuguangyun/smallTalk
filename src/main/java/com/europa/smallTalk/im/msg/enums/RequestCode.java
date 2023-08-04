@@ -1,4 +1,4 @@
-package com.europa.smallTalk.im.msg;
+package com.europa.smallTalk.im.msg.enums;
 
 import lombok.Getter;
 
@@ -7,16 +7,16 @@ import lombok.Getter;
  * @version 1.2
  */
 @Getter
-public enum Code {
+public enum RequestCode {
 
     CONN(100),LOGIN(201),READ_WRITE(200),LOGOUT(500);
     private final Integer code;
-    Code(Integer code) {
+    RequestCode(Integer code) {
         this.code = code;
     }
 
-    public Code findByCode(int code) {
-        for (Code c : values()) {
+    public static RequestCode findByCode(int code) {
+        for (RequestCode c : values()) {
             if (c.code.equals(code)) {
                 return c;
             }

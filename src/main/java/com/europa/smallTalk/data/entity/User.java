@@ -6,6 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import java.io.Serializable;
 
 /**
  * 用户
@@ -13,11 +14,12 @@ import javax.persistence.Id;
  */
 @Data
 @Entity(name = "im_user")
-public class User {
+public class User implements Serializable {
 
+    private static final long serialVersionUID = 5613140009155117727L;
     /** 主键 **/
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
     /** 名称 **/
