@@ -96,12 +96,6 @@ public class TaskUseUser implements Runnable {
         Socket targetSocket = SessionHolder.ONLINE_MAP.get(readOrWrite.getTo());
         // 说明对方用户在线
         if (targetSocket != null) {
-            // 这里会出问题，因为此socket已经阻塞在读取object那了，无法使用他的output stream。直接杀掉的话会杀错进程。
-            try {
-                targetSocket.shutdownOutput();
-            } catch (IOException e) {
-                log.info("杀掉了对应targetSocket的inputStream。");
-            }
             Result<ReadOrWrite> result = Result.ok(readOrWrite);
             ResultWriter.write(result, targetSocket);
         }

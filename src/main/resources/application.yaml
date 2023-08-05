@@ -7,7 +7,7 @@ im:
 
 logging:
   level:
-    root: debug
+    root: info
 spring:
   datasource:
     driver-class-name: org.h2.Driver

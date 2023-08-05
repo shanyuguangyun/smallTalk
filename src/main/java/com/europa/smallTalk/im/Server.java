@@ -2,19 +2,13 @@ package com.europa.smallTalk.im;
 
 import com.europa.smallTalk.im.conn.Connections;
 import com.europa.smallTalk.im.helper.DaoFactory;
-import com.europa.smallTalk.im.task.Task;
-import com.europa.smallTalk.im.task.TaskUseObjectStream;
 import com.europa.smallTalk.im.task.TaskUseUser;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.BeansException;
-import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Component;
 

@@ -7,6 +7,7 @@ import com.europa.smallTalk.im.msg.login.Login;
 import com.europa.smallTalk.im.msg.logout.Logout;
 import com.europa.smallTalk.im.msg.readWrite.ReadOrWrite;
 
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
@@ -23,6 +24,26 @@ public class ClientLoginTests {
     public static void main(String[] args) {
         try {
             Socket socket = new Socket("127.0.0.1", 9999);
+            new Thread(() -> {
+                try {
+                    while (true) {
+                        // 接收服务器返回的消息
+                        Thread.sleep(1000);
+                        ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
+                        Object obj = null;
+                        obj = ois.readObject();
+                        if (obj instanceof Result<?>) {
+                            Result<?> msgRec = (Result<?>) obj;
+                            System.out.println("服务端返回" + msgRec);
+                            if (ResponseCode.LOGOUT.getCode().equals(msgRec.getCode())) {
+                                socket.close();
+                            }
+                        }
+                    }
+                } catch (IOException | InterruptedException | ClassNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
+            }).start();
             while (true) {
                 Scanner scanner = new Scanner(System.in);
                 String sendMsgContent = scanner.nextLine();
@@ -37,9 +58,9 @@ public class ClientLoginTests {
                     login.setTo(-1);
                     login.setCode(RequestCode.LOGIN.getCode());
                     oos.writeObject(login);
-                } else if ("stop".equals(sendMsgContent)){
+                } else if ("stop".equals(sendMsgContent)) {
                     Logout logout = new Logout();
-                    logout.setFrom(1);
+                    logout.setFrom(2);
                     logout.setTo(-1);
                     logout.setCode(RequestCode.LOGOUT.getCode());
                     oos.writeObject(logout);
@@ -51,19 +72,6 @@ public class ClientLoginTests {
                     readOrWrite.setCode(RequestCode.READ_WRITE.getCode());
                     readOrWrite.setTo(1);
                     oos.writeObject(readOrWrite);
-                }
-
-
-                // 接收服务器返回的消息
-                ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
-                Object obj = ois.readObject();
-                if (obj instanceof Result<?>) {
-                    Result<?> msgRec = (Result<?>) obj;
-                    System.out.println("服务端返回" + msgRec);
-                    if (ResponseCode.LOGOUT.getCode().equals(msgRec.getCode())) {
-                        socket.close();
-                        break;
-                    }
                 }
             }
         } catch (SocketException e) {

@@ -2,6 +2,7 @@ package com.europa.smallTalk.im.msg;
 
 import com.europa.smallTalk.im.msg.enums.ResponseCode;
 import lombok.Data;
+import lombok.ToString;
 import org.springframework.util.ReflectionUtils;
 
 import java.io.DataInputStream;
@@ -14,6 +15,7 @@ import java.io.Serializable;
  * @version 1.2
  **/
 @Data
+@ToString
 public class Result<T> implements Serializable {
 
     private static final long serialVersionUID = 4139508047838814984L;
