@@ -24,7 +24,62 @@
 #### 1.3版本
 有了用户体系后，需要完成用户间对话，也就是两个socket间数据，所以需要服务端存储用户和socket的对应关系，socket虽然是一直
 持有连接，但是用户登出后还是会断开连接。所以抽象出Session替换Connections，将用户和对应的socket存入session中。互相对话根据用户拿到对应的socket即可进行数据
-传输。
+传输。  
+同时，服务端最基本的逻辑ok后，我不满足于只在测试类中模拟客户端，所以自己编写个客户端出来。但是客户端也相对麻烦，原因是只会js是不行的。
+网页的前端因为基于浏览器的，他只能撰写应用层的http以及websocket协议的数据调用，所以还得学习下electron的用法。这样就能基于socket进行
+编程了。当然基于java的swing或者javaFx也可以，但是论简单度来讲，我更倾向于electron，并且electron的强大远不止此，他能使用nodejs，这样我就能进行网络编程了。  
+
+如我大概用electron写了个最简单的如下，整体流程为：使用nodejs连接socket，然后将页面上的数据收集起来采用electron技术
+提交给node，然后进行基于socket的网络编程。
+
+![small1](./sql/smallTalk1.png)
+
+![small2](./sql/smallTalk2.png)
+
+这个代码暂未上传，因为electron目前还不是特别熟
+```javascript
+document.getElementById('sendMsg').addEventListener('click', () => {
+    let context = document.getElementById('context').value;
+    let roomDom = document.getElementById('chatroom');
+
+    let para = document.createElement("p");
+    let node = document.createTextNode(context);
+    para.appendChild(node);
+    roomDom.appendChild(para);
+
+    window.myApi.handleSendMsg(context);
+
+})
+
+const handleSendMsg = async (msg) => {
+  ipcRenderer.invoke('sendMsg-event', msg);
+}
+
+contextBridge.exposeInMainWorld('myApi', {
+  handleLogin,
+  handleSendMsg
+})
+
+
+ipcMain.handle('login-event', (event, msg) => {
+  console.log(msg);
+  win.setSize(400, 500);
+  win.center();
+  socket = net.createConnection({
+    host: 'localhost',
+    port: 9999 // 你的服务器端口号
+  }, () => {
+    socket.write('Hello, server!');
+  });
+  return msg + "登录成功";
+})
+
+ipcMain.handle('sendMsg-event', (event, msg) => {
+  socket.write(msg);
+})
+
+```
+
 
 > 注意项
 

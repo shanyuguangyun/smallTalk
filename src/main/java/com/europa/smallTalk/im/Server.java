@@ -2,6 +2,7 @@ package com.europa.smallTalk.im;
 
 import com.europa.smallTalk.im.conn.Connections;
 import com.europa.smallTalk.im.helper.DaoFactory;
+import com.europa.smallTalk.im.task.TaskUseString;
 import com.europa.smallTalk.im.task.TaskUseUser;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,7 +58,8 @@ public class Server implements ApplicationRunner {
                         // 注意这里，由于每个任务都要一直持有连接。线程不会自动停止，这里的线程池的核心数会限制用户数量。
 //                        Runnable task = new Task(socket);
 //                        Runnable task = new TaskUseObjectStream(socket);
-                        Runnable task = new TaskUseUser(socket);
+//                        Runnable task = new TaskUseUser(socket);
+                        Runnable task = new TaskUseString(socket);
                         connectPoolExecutor.execute(task);
                     } catch (IOException e) {
                         log.error("客户端建立连接错误", e);
